@@ -9,6 +9,7 @@ String apiKey = 'fafacb4ff62a439a88f32231bd112ec5';
 String baseUrl = "https://api.themoviedb.org/3";
 String imageBaseUrl = "https://image.tmdb.org/t/p/w500/";
 String endpoint = "/trending/movie/day";
+String loginBaseUrl = "https://dummyjson.com/auth/login";
 
 class ApiClient {
   static Future<List<Results>> apiTrendingDataList() async {
@@ -37,62 +38,26 @@ class ApiClient {
     }
   }
 
-// Future<List<Results>> apiTrendingDataList() async {
-//   final url = Uri.parse("$baseUrl$endpoint?api_key=$apiKey");
-//
-//   try {
-//     final response = await http.get(url);
-//
-//     if (response.statusCode == 200) {
-//       final responseData = json.decode(response.body);
-//       final List<dynamic> resultsData = responseData['results'];
-//       final List<Results> resultsList =
-//           resultsData.map((data) => Results.fromJson(data)).toList();
-//       return resultsList;
-//
-//       // final List<String> posterPathList =
-//       //     resultsList.map((result) => result.posterPath ?? '').toList();
-//       // final List<String> fullImagePathList = posterPathList
-//       //     .map((path) => 'https://image.tmdb.org/t/p/w500/$path')
-//       //     .toList();
-//       // if (kDebugMode) {
-//       //   print('Poster Path List: $fullImagePathList');
-//       // }
-//       // return fullImagePathList;
-//     } else {
-//       if (kDebugMode) {
-//         print('Request failed with status: ${response.statusCode}');
-//       }
-//       return [];
-//     }
-//   } catch (error) {
-//     if (kDebugMode) {
-//       print('An error occurred: $error');
-//     }
-//     return [];
-//   }
-// }
-
-  static Future<List<String>> coverApiImages() async {
+  static Future<List<Results>> coverApiImages() async {
     final url = Uri.parse("$baseUrl$endpoint?api_key=$apiKey");
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final responseData = json.decode(response.body);
         final List<dynamic> resultsData = responseData['results'];
-        final List<Results> resultsList =
+        final List<Results> apiResultResponse =
             resultsData.map((data) => Results.fromJson(data)).toList();
-        final List<String> posterPathList =
-            resultsList.map((result) => result.backdropPath ?? '').toList();
-
-        final List<String> fullImagePathList = posterPathList
-            .map((path) => 'https://image.tmdb.org/t/p/w500/$path')
-            .toList();
+        // final List<String> posterPathList =
+        //     resultsList.map((result) => result.backdropPath ?? '').toList();
+        //
+        // final List<String> fullImagePathList = posterPathList
+        //     .map((path) => 'https://image.tmdb.org/t/p/w500/$path')
+        //     .toList();
         if (kDebugMode) {
-          print('Poster Path List: $fullImagePathList');
+          print('Poster Path List: $apiResultResponse');
         }
 
-        return fullImagePathList;
+        return apiResultResponse;
       } else {
         if (kDebugMode) {
           print('Request failed with status: ${response.statusCode}');
@@ -148,5 +113,21 @@ class ApiClient {
       print('An error occurred: $error');
     }
     return [];
+  }
+
+  static Future<String> loginApi(Map<String, String> map) async {
+    final url = Uri.parse(loginBaseUrl);
+    final httpResponse = await http.post(url, body: map);
+    try {
+      if (httpResponse.statusCode == 200) {
+        final apiResponse = jsonDecode(httpResponse.body);
+        final String userName = apiResponse["firstName"];
+        print(userName);
+        return userName;
+      }
+    } catch (e) {
+      print(e);
+    }
+    return "";
   }
 }

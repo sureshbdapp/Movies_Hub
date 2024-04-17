@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:pixeltrue/CarouselScreen.dart';
-import 'package:pixeltrue/Dashboard.dart';
+import 'package:pixeltrue/screens/LoginButtonScreen.dart';
+
+import '../utils/Constant.dart';
+import 'Dashboard.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,8 +30,9 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.fastOutSlowIn,
     );
     Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Dashboard()));
+      Navigator.of(context).push(createRoute(LoginButtonScreen()));
+      // Navigator.pushReplacement(
+      //     context, MaterialPageRoute(builder: (context) => LoginScreen()));
     });
   }
 
