@@ -12,7 +12,6 @@ App built using Flutter that consumes [TMDB API](https://developers.themoviedb.o
 
 Obtain your API key from [TMDB](https://developers.themoviedb.org/3/getting-started/introduction) and add it in a file named `.env` within the root directory:
 
-```bash
 NEATFLIX_API_KEY="****"
 
 ---
@@ -20,7 +19,7 @@ NEATFLIX_API_KEY="****"
 ---
 # Screenshots
 
-<img src="screenshot/splash.jpg" width="250" /> <img src="screenshot/home.jpg" width="250" /> <img src="screenshot/tvshows.jpg" width="250" />
+<img src="screenshots/splash.jpg" width="250" /> <img src="screenshots/home.jpg" width="250" /> <img src="screenshots/tvshows.jpg" width="250" />
 
 Happy coding!
 
