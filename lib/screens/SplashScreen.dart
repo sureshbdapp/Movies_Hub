@@ -5,6 +5,7 @@ import 'package:pixeltrue/screens/LoginButtonScreen.dart';
 
 import '../utils/Constant.dart';
 import 'Dashboard.dart';
+import 'LoginScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -30,9 +31,9 @@ class _SplashScreenState extends State<SplashScreen>
       curve: Curves.fastOutSlowIn,
     );
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).push(createRoute(LoginButtonScreen()));
-      // Navigator.pushReplacement(
-      //     context, MaterialPageRoute(builder: (context) => LoginScreen()));
+      // Navigator.of(context).push(createRoute(LoginButtonScreen()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => LoginButtonScreen()));
     });
   }
 
@@ -57,7 +58,8 @@ class _SplashScreenState extends State<SplashScreen>
                 child: ScaleTransition(
                     scale: _animation,
                     child: const Image(
-                        image: AssetImage('assets/images/neatflix_name.png'))),
+                        image: AssetImage(
+                            'assets/images/netflix_white_logo.png'))),
               ),
             ),
           ],

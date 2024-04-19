@@ -12,13 +12,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Movies Hub',
         theme: ThemeData(
-          backgroundColor: Colors.black,
           // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: false,
         ),
-        home: SplashScreen());
+        home: const SplashScreen());
   }
 }
 

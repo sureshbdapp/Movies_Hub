@@ -64,8 +64,8 @@ class _LoginScreenState extends State<LoginButtonScreen>
                         return Colors.red;
                       })),
                   onPressed: () {
-                    Navigator.of(context).push(createRoute(Dashboard()));
-                    // navigation(context, const Dashboard());
+                    // Navigator.of(context).push(createRoute(Dashboard()));
+                    navigation(context, const Dashboard());
                   },
                   child: const Text(
                     'GUEST LOGIN',

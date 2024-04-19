@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:http/http.dart';
 import 'package:pixeltrue/api/response_models/MovieNameListModel.dart';
 import 'package:pixeltrue/api/response_models/nodel.dart';
+import 'package:pixeltrue/utils/NavDrawer.dart';
 import '../api/ApiClient.dart';
 
 class Dashboard extends StatefulWidget {
@@ -13,6 +13,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   List<Widget> imagesList = [
     imageForList(),
     imageForList(),
@@ -30,6 +32,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
+      key: _scaffoldKey,
       backgroundColor: const Color.fromRGBO(61, 54, 80, 0.8),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -45,12 +49,16 @@ class _DashboardState extends State<Dashboard> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        SvgPicture.asset("assets/images/ic_person_profile.svg"),
                         GestureDetector(
                           onTap: () {
-                            // print(apiDataList());
-                            //  _showAlertDialog(context, apiDataList());
+                            _scaffoldKey.currentState?.openDrawer(); //
+                            // _scaffoldKey.currentState.openDrawer()
                           },
+                          child: SvgPicture.asset(
+                              "assets/images/ic_person_profile.svg"),
+                        ),
+                        GestureDetector(
+                          onTap: () {},
                           child: const SizedBox(
                               height: 70,
                               width: 150,
@@ -224,8 +232,8 @@ class _DashboardState extends State<Dashboard> {
                                           ),
                                         ),
                                         child: Text(
-                                          apiMovieNameList[
-                                              index], // Replace this with your desired text
+                                          apiMovieNameList[index],
+                                          // Replace this with your desired text
                                           style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 14.0,

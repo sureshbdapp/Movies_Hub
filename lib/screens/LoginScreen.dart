@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pixeltrue/api/ApiClient.dart';
+import 'package:pixeltrue/screens/Dashboard.dart';
+import 'package:pixeltrue/utils/Constant.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,7 +12,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  Map<String, String> _formData = {};
+
   @override
   void dispose() {
     usernameController.dispose();
@@ -38,11 +41,11 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 30,
             ),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 25),
+              padding: const EdgeInsets.symmetric(horizontal: 25),
               child: TextField(
                 controller: usernameController,
                 style: TextStyle(fontSize: 14, color: Colors.white),
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                     enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white),
                     ),
@@ -61,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: passwordController,
                 style: TextStyle(fontSize: 14, color: Colors.white),
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   border: OutlineInputBorder(),
                   enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white)),
@@ -88,58 +91,74 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     onPressed: () {
-                      _submitForm();
-                      ApiClient.loginApi(_formData);
-                      print(ApiClient.loginApi(_formData));
+                      _submitForm(context);
                     },
                   ),
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Container(
-                child: Center(
+            Center(
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.only(left: 40),
-                    child: Text('Forgot your login details? ',
-                        style: TextStyle(fontSize: 14, color: Colors.white)),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: InkWell(
-                        onTap: () {},
-                        child: const Text(
-                          'Get help logging in.',
-                          style: TextStyle(fontSize: 14, color: Colors.white),
-                        )),
-                  )
+                  const Text('Forgot your login details? ',
+                      style: TextStyle(fontSize: 14, color: Colors.white)),
+                  InkWell(
+                      onTap: () {},
+                      child: const Text(
+                        'Get help logging in.',
+                        style: TextStyle(fontSize: 14, color: Colors.white),
+                      )),
                 ],
               ),
-            ))
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: InkWell(
+                    onTap: () {},
+                    child: const Text(
+                      'Use Credential For Login :-\nUserName - hbingley1\nPassword - CQutx25i8r',
+                      style: TextStyle(fontSize: 20, color: Colors.white),
+                    )),
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
-  void _submitForm() async {
-    final username = usernameController.text;
-    final password = passwordController.text;
-    if (username.isNotEmpty && password.isNotEmpty) {
-      setState(() {
-        _formData = {
-          'username': username,
-          'password': password,
-        };
-      });
+  void _submitForm(BuildContext context) async {
+    Map<String, String> map = {
+      "username": usernameController.text.toString(),
+      "password": passwordController.text.toString()
+    };
+
+    Map<String, dynamic> response = await ApiClient.loginApi(map);
+    if (usernameController.text.toString().isNotEmpty &&
+        passwordController.text.toString().isNotEmpty) {
+      if (response["username"] != null &&
+          (!response["username"].toString().contains("null"))) {
+        if (kDebugMode) {
+          print(response);
+        }
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Login Successfully")));
+        navigation(context, Dashboard());
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text("Invalid Credential")));
+      }
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Please enter username and password'),
-      ));
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Invalid Credential")));
     }
   }
 }

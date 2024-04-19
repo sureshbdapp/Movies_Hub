@@ -115,19 +115,19 @@ class ApiClient {
     return [];
   }
 
-  static Future<String> loginApi(Map<String, String> map) async {
+  static Future<Map<String, dynamic>> loginApi(Map<String, String> map) async {
     final url = Uri.parse(loginBaseUrl);
     final httpResponse = await http.post(url, body: map);
+
     try {
       if (httpResponse.statusCode == 200) {
-        final apiResponse = jsonDecode(httpResponse.body);
-        final String userName = apiResponse["firstName"];
-        print(userName);
-        return userName;
+        Map<String, dynamic> apiResponse = jsonDecode(httpResponse.body);
+        print('Login successfully');
+        return apiResponse;
       }
     } catch (e) {
       print(e);
     }
-    return "";
+    return {}; // or return null;
   }
 }
