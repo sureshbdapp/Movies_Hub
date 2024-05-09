@@ -1,5 +1,3 @@
-# pixeltrue
-
 
 # NETFLIX
 
